@@ -13,19 +13,19 @@ export const FilterBox = ({ facet, facetFilters, setFacetFilters }: Props) => {
 
     //function to add and remove facets based off the checkbox
     const addRemoveFacet = (option: Option, e: React.ChangeEvent<HTMLInputElement>) => {
-        if(e.currentTarget.checked){ //add the facet
+        if (e.currentTarget.checked) { //add the facet
             const newFacet = {
                 identifier: option.identifier,
                 value: option.value
             }
             setFacetFilters(
-                {...facetFilters, [facet.identifier]:(facetFilters as any)["categories"]?.concat(newFacet)}      
+                { ...facetFilters, [facet.identifier]: (facetFilters as any)["categories"]?.concat(newFacet) }
             )
             return
         }
         //else the remove facet and return new object
     }
-    
+
     return (
         <AccordionItem id={facet.identifier} mt={"2px"} bg="gray.100" border="1px">
             <h2>
@@ -38,7 +38,7 @@ export const FilterBox = ({ facet, facetFilters, setFacetFilters }: Props) => {
             </h2>
             <AccordionPanel w="full">
                 {facet.options.map((option) =>
-                    <Checkbox option={option} key={option.displayValue} onChange={e => {}}/>
+                    <Checkbox option={option} key={option.displayValue} onChange={e => { }} />
                 )}
             </AccordionPanel>
         </AccordionItem>

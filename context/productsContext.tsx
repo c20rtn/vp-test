@@ -1,4 +1,4 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react"
+import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { START_INDEX, ITEMS_PER_PAGE } from "../config/constants"
 import { Data, Facet, Pagination, Product, ProductTypes, SortTypes } from "../entities"
@@ -10,7 +10,7 @@ const ProductsProvider = ({ children }: { children: ReactNode }) => {
     const [productType, setProductType] = useState<ProductTypes>("toilets")
     const [sortType, setSortType] = useState<SortTypes>("1")
     const [pageNo, setPageNo] = useState<number>(START_INDEX)
-    const [facetFilters, setFacetFilters] = useState([]) //Started and couldnt get them going in time
+    const [facetFilters, setFacetFilters] = useState({}) //Started and couldnt get them going in time
 
     const {
         data,
@@ -36,18 +36,26 @@ const ProductsProvider = ({ children }: { children: ReactNode }) => {
         }
     )
 
-    // useEffect(() => {
-    //   const newFacets = data?.facets.reduce((facetList, { identifier, options }) => {
-    //     (facetList as any)[identifier] = options.map(op => {
-    //       return ({
-    //         identifier: op.identifier,
-    //         value: op.value,
-    //       })
-    //     });
-    //     return facetList;
-    //   }, {});
-    //   console.log(newFacets);
-    // }, [data?.facets])
+    //creates empty list based off the api data
+    const createEmptyFacet = () => {
+        if (data?.facets === undefined)
+            return []
+        return data?.facets.reduce((facetList, { identifier }) => {
+            (facetList as any)[identifier] = []
+            return facetList;
+        }, {});
+    }
+
+    //reset page no if filter/sort/product changes
+    useEffect(() => {
+        setPageNo(START_INDEX)
+    }, [productType, sortType])
+
+    //initilaise facet filters
+    useEffect(() => {
+        setFacetFilters(createEmptyFacet())
+    }, [data?.facets])
+
 
     return (
         <ProductsContext.Provider

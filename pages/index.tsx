@@ -44,6 +44,7 @@ const Home = () => {
     }
   )
 
+  //creates empty list based off the api data
   const createEmptyFacet = () => {
     if (data?.facets === undefined)
       return []
@@ -58,13 +59,14 @@ const Home = () => {
     setPageNo(START_INDEX)
   }, [productType, sortType])
 
-  //initilaise filters
+  //initilaise facet filters
   useEffect(() => {
     setFacetFilters(createEmptyFacet())
   }, [data?.facets])
 
   return (
     <>
+      {/* Header for product selection */}
       <Header productType={productType} setProductType={setProductType} />
 
       <Grid
@@ -78,6 +80,7 @@ const Home = () => {
         maxW="1400px"
         mx="auto"
       >
+        {/* Header of product grid */}
         <GridItem pl='2' area={'header'} >
           <Flex justify="space-between">
             Products Page
@@ -86,6 +89,7 @@ const Home = () => {
           </Flex>
         </GridItem>
 
+        {/* Accordian of facets */}
         <GridItem pl='2' area={'nav'}>
           <Button label={"Clear"} mx="auto" onClick={e => setFacetFilters(createEmptyFacet())} />
           <Accordion defaultIndex={[0]} allowMultiple w="full" gap={2}>
@@ -95,6 +99,7 @@ const Home = () => {
           </Accordion>
         </GridItem>
 
+        {/* Grid of products */}
         <GridItem pl='2' area={'main'}>
           <SimpleGrid minChildWidth='300px' spacing={10}>
             {!isFetching && data?.products.map((prod) =>

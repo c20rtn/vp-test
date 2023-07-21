@@ -11,6 +11,7 @@ interface Props {
 
 export const FilterBox = ({ facet, facetFilters, setFacetFilters }: Props) => {
 
+    //function to add and remove facets based off the checkbox
     const addRemoveFacet = (option: Option, e: React.ChangeEvent<HTMLInputElement>) => {
         if(e.currentTarget.checked){ //add the facet
             const newFacet = {
@@ -22,6 +23,7 @@ export const FilterBox = ({ facet, facetFilters, setFacetFilters }: Props) => {
             )
             return
         }
+        //else the remove facet and return new object
     }
     
     return (

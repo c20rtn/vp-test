@@ -5,7 +5,9 @@ export const getListings = async ({
     pageNumber,
     size,
     additionalPages,
-    sort }: Params) => {
+    sort,
+    facets
+}: Params) => {
 
     //access secret api key for security
     const apiKey = process.env.NEXT_PUBLIC_API_KEY;
@@ -30,4 +32,5 @@ interface Params {
     size: number
     additionalPages: number
     sort: number
+    facets?: {}
 }

@@ -56,7 +56,7 @@ const Home = () => {
   //reset page no if filter/sort/product changes
   useEffect(() => {
     setPageNo(START_INDEX)
-  }, [productType, facetFilters, sortType])
+  }, [productType, sortType])
 
   //initilaise filters
   useEffect(() => {

@@ -1,6 +1,7 @@
 import { Accordion, Flex, Grid, GridItem, SimpleGrid, Skeleton } from "@chakra-ui/react"
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { useQuery } from "react-query"
+import { Button } from "../components/atoms/button"
 import { ProductCard } from "../components/molecules/card"
 import { FilterBox } from "../components/molecules/filterBox"
 import { Header } from "../components/organisms/header"
@@ -16,19 +17,21 @@ const Home = () => {
   const [productType, setProductType] = useState<ProductTypes>("toilets") // would have stored in context but ran out of time
   const [sortType, setSortType] = useState<SortTypes>("1") // would have stored in context but ran out of time
   const [pageNo, setPageNo] = useState<number>(START_INDEX) // would have stored in context but ran out of time
+  const [facetFilters, setFacetFilters] = useState({}) // would have stored in context but ran out of time
 
   const {
     data,
     isFetching,
   } = useQuery(
-    ["/products", productType, sortType, pageNo], //dependencies
+    ["/products", productType, sortType, pageNo, facetFilters], //dependencies
     async () => {
       const data = await service.get.listing({
         query: productType,
         pageNumber: pageNo,
         size: ITEMS_PER_PAGE,
         additionalPages: 0,
-        sort: parseInt(sortType)
+        sort: parseInt(sortType),
+        //facets: facetFilters
       })
       return data as Data
     },
@@ -40,6 +43,25 @@ const Home = () => {
       refetchOnWindowFocus: false //no constant reloading
     }
   )
+
+  const createEmptyFacet = () => {
+    if (data?.facets === undefined)
+      return []
+    return data?.facets.reduce((facetList, { identifier }) => {
+      (facetList as any)[identifier] = []
+      return facetList;
+    }, {});
+  }
+
+  //reset page no if filter/sort/product changes
+  useEffect(() => {
+    setPageNo(START_INDEX)
+  }, [productType, facetFilters, sortType])
+
+  //initilaise filters
+  useEffect(() => {
+    setFacetFilters(createEmptyFacet())
+  }, [data?.facets])
 
   return (
     <>
@@ -60,14 +82,15 @@ const Home = () => {
           <Flex justify="space-between">
             Products Page
             <Pagination pageNo={pageNo} setPageNo={setPageNo} total={data?.pagination.total} />
-            <SortBy sortType={sortType} setSortType={setSortType as Dispatch<SetStateAction<string>>}/>
+            <SortBy sortType={sortType} setSortType={setSortType as Dispatch<SetStateAction<string>>} />
           </Flex>
         </GridItem>
 
         <GridItem pl='2' area={'nav'}>
+          <Button label={"Clear"} mx="auto" onClick={e => setFacetFilters(createEmptyFacet())} />
           <Accordion defaultIndex={[0]} allowMultiple w="full" gap={2}>
             {data?.facets.map((facet) =>
-              <FilterBox facet={facet} key={facet.identifier} />
+              <FilterBox facet={facet} facetFilters={facetFilters} setFacetFilters={setFacetFilters} key={facet.identifier} />
             )}
           </Accordion>
         </GridItem>

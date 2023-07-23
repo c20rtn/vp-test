@@ -40,8 +40,7 @@ export const ProductCard = ({ product }: Props) => {
 
                 <Box
                     mt='1'
-                    fontWeight='semibold'
-                    as='h4'
+                    fontWeight="medium"
                     lineHeight='tight'
                     fontSize="lg"
                 >
@@ -56,7 +55,7 @@ export const ProductCard = ({ product }: Props) => {
 
                 <Flex justify="space-between">
                     <Box>{product.reviewsCount} reviews</Box>
-                    <Box>
+                    <Box color={product.stockStatus.status === "G" ? "green" : "red"}>
                         {product.stockStatus.status === "G" && `In Stock!`}
                         {product.stockStatus.status !== "G" && `Not in Stock`}
                     </Box>

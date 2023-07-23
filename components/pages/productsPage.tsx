@@ -35,7 +35,7 @@ export const ProductsPage = () => {
                             <SortBy sortType={state?.sortType} setSortType={state?.setSortType as Dispatch<SetStateAction<string>>} />
                         </>}
                         {state?.isFetching && <>
-                            {[...Array(3)].map(x => <Skeleton height='50px' width="300px" />)}
+                            {[...Array(3)].map((x, i) => <Skeleton key={i} height='50px' width="300px" />)}
                         </>}
                     </Flex>
                 </GridItem>
@@ -48,7 +48,7 @@ export const ProductsPage = () => {
                             <FilterBox facet={facet} facetFilters={state?.facetFilters} setFacetFilters={state?.setFacetFilters} key={facet.identifier} />
                         )}
                         {state?.isFetching && <>
-                            {[...Array(8)].map(x => <Skeleton height='40px' width="full" mt="5px" />)}
+                            {[...Array(8)].map((x, i) => <Skeleton key={i} height='40px' width="full" mt="5px" />)}
                         </>}
                     </Accordion>
                 </GridItem>
@@ -60,7 +60,7 @@ export const ProductsPage = () => {
                             <ProductCard product={prod} key={prod.id} />
                         )}
                         {state?.isFetching && <>
-                            {[...Array(ITEMS_PER_PAGE)].map(x => <Skeleton height='300px' />)}
+                            {[...Array(ITEMS_PER_PAGE)].map((x, i) => <Skeleton key={i} height='300px' />)}
                         </>}
                     </SimpleGrid>
                 </GridItem>

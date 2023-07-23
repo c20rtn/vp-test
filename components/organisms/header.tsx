@@ -27,6 +27,7 @@ export const Header = ({ productType, setProductType }: Props) => {
                 w="50px"
                 mx="20px"
                 src="https://ipohub.blob.core.windows.net/logos/bbf3d4ff-c0e7-4a5c-ad98-f8eac76444e4.png"
+                alt="logo"
             />
 
             <Box

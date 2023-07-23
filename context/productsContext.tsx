@@ -1,8 +1,19 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react"
 import { useQuery } from "react-query"
 import { START_INDEX, ITEMS_PER_PAGE } from "../config/constants"
-import { Data, Facet, Pagination, Product, ProductTypes, SortTypes } from "../entities"
+import { Data, Facet, FacetFilter, Pagination, Product, ProductTypes, SortTypes } from "../entities"
 import { service } from "../services"
+
+const initialData: Data = {
+    facets: [],
+    products: [],
+    pagination: {
+        from: 0,
+        size: 0,
+        total: 0,
+        sortType: 1
+    },
+}
 
 const ProductsContext = createContext({} as IProductsContext)
 
@@ -10,20 +21,23 @@ const ProductsProvider = ({ children }: { children: ReactNode }) => {
     const [productType, setProductType] = useState<ProductTypes>("toilets")
     const [sortType, setSortType] = useState<SortTypes>("1")
     const [pageNo, setPageNo] = useState<number>(START_INDEX)
-    const [facetFilters, setFacetFilters] = useState({}) //Started and couldnt get them going in time
+    const [facetFilters, setFacetFilters] = useState<FacetFilter[]>([])
 
     const {
         data,
         isFetching,
     } = useQuery(
-        ["/products", productType, sortType, pageNo],
+        ["/products", productType, sortType, pageNo, facetFilters], //dependencies
         async () => {
+            const facets = createFacetJson()
+
             const data = await service.get.listing({
                 query: productType,
                 pageNumber: pageNo,
                 size: ITEMS_PER_PAGE,
                 additionalPages: 0,
-                sort: parseInt(sortType)
+                sort: parseInt(sortType),
+                facets: facets
             })
             return data as Data
         },
@@ -32,30 +46,28 @@ const ProductsProvider = ({ children }: { children: ReactNode }) => {
                 alert("ERROR")
                 console.log("ERROR", error)
             },
-            refetchOnWindowFocus: false
+            initialData: initialData,
+            refetchOnWindowFocus: false //no constant reloading
         }
     )
-
-    //creates empty list based off the api data
-    const createEmptyFacet = () => {
-        if (data?.facets === undefined)
-            return []
-        return data?.facets.reduce((facetList, { identifier }) => {
-            (facetList as any)[identifier] = []
-            return facetList;
-        }, {});
-    }
 
     //reset page no if filter/sort/product changes
     useEffect(() => {
         setPageNo(START_INDEX)
     }, [productType, sortType])
 
-    //initilaise facet filters
-    useEffect(() => {
-        setFacetFilters(createEmptyFacet())
-    }, [data?.facets])
-
+    //creates api call friendly facet filters
+    const createFacetJson = () => {
+        const value = facetFilters.reduce((facetList, { type, identifier, value }) => {
+            if ((facetList as any)[type] === undefined) {
+                (facetList as any)[type] = [{ identifier, value }]
+            } else {
+                (facetList as any)[type] = [...(facetList as any)[type], { identifier, value }]
+            }
+            return facetList;
+        }, {});
+        return value;
+    }
 
     return (
         <ProductsContext.Provider
@@ -75,7 +87,7 @@ const ProductsProvider = ({ children }: { children: ReactNode }) => {
                     isFetching,
                 },
                 methods: {
-
+                    createFacetJson
                 }
             }}
         >
@@ -106,6 +118,6 @@ interface IProductsContext {
         setFacetFilters: Dispatch<SetStateAction<any>>
     },
     methods: {
-
+        createFacetJson: () => {}
     }
 }

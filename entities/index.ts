@@ -19,14 +19,6 @@ export interface Facet {
     facetType: number
 }
 
-export interface FacetFilter {
-    identifier: string
-    displayName: string
-    priority: number
-    options: Option[]
-    facetType: number
-}
-
 export interface Option {
     identifier: string
     value: any
@@ -140,5 +132,12 @@ export interface Attributes3 {
     imageAltText: string
 }
 
-export type ProductTypes = "toilets" | "basins" | "baths" | "showers" | "taps" 
+export type ProductTypes = "toilets" | "basins" | "baths" | "showers" | "taps"
 export type SortTypes = "1" | "2" | "3" | "4"// 1 = recommended 2 = PriceLowToHight 3 = PriceHighToLow 4 = LargestDiscount 
+
+
+export interface FacetFilter {
+    type: string
+    identifier: string
+    value: any
+}

@@ -1,4 +1,4 @@
-import { Badge, Box, Image, Text } from '@chakra-ui/react'
+import { Badge, Box, Flex, Image, Text } from '@chakra-ui/react'
 import React from 'react'
 import { Product } from '../../entities'
 import { colors } from '../../styles/colors'
@@ -11,18 +11,21 @@ export const ProductCard = ({ product }: Props) => {
     return (
         <Box
             maxW='sm'
-            minW="300"
+            minW="300px"
             mx={4}
-            borderWidth='2px'
+            borderWidth='0px'
             borderColor={colors.primary}
-            bg={colors.light}
             overflow='hidden'
-            shadow="lg"
+            shadow="md"
             cursor="pointer"
+            borderBottomRightRadius="50px"
+            transition="box-shadow 0.1s linear"
+            _hover={{ "shadow": "2xl" }}
+            bg="white"
         >
             <Image shadow="md" w="full" maxH="300" objectFit="fill" src={product.image.url} alt={product.image.url} />
 
-            <Box p='6'>
+            <Box p='6' h="full">
                 <Box display='flex' alignItems='baseline'>
                     {product.attributes.isRecommended && <Badge borderRadius='full' px='2' colorScheme='green'>
                         Recommended!
@@ -40,7 +43,7 @@ export const ProductCard = ({ product }: Props) => {
                     fontWeight='semibold'
                     as='h4'
                     lineHeight='tight'
-                    fontSize="xl"
+                    fontSize="lg"
                 >
                     {product.productName}
                 </Box>
@@ -51,14 +54,14 @@ export const ProductCard = ({ product }: Props) => {
                         <Text color="gray.500" fontWeight="medium" fontSize="md">{`(Was £${product.price.wasPriceIncTax})`}</Text>}
                 </Box>
 
-                <Box>
-                    {product.stockStatus.status === "G" && `In Stock!`}
-                    {product.stockStatus.status !== "G" && `Not in Stock`}
-                </Box>
+                <Flex justify="space-between">
+                    <Box>{product.reviewsCount} reviews</Box>
+                    <Box>
+                        {product.stockStatus.status === "G" && `In Stock!`}
+                        {product.stockStatus.status !== "G" && `Not in Stock`}
+                    </Box>
+                </Flex>
 
-                <Box display='flex' mt='2' alignItems='center'>
-                    {product.reviewsCount} reviews
-                </Box>
             </Box>
         </Box>
     )

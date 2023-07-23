@@ -14,6 +14,8 @@ export const Button = ({ label, ...props }: Props) => {
                     bg={colors.primary}
                     color="white"
                     mx="5px"
+                    borderBottomRightRadius="10px"
+                    _hover={{"color":`${colors.primary}`, "bg":`${colors.light}`}}
                     {...props}
                 >
                     {label}

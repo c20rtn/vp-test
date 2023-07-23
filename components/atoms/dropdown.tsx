@@ -16,7 +16,6 @@ interface Props {
 export const Dropdown = ({ options, placeholder, state, setState }: Props) => {
     return (
         <Select
-            placeholder={placeholder}
             bg="white"
             color={colors.dark}
             borderRadius="0"
@@ -26,6 +25,7 @@ export const Dropdown = ({ options, placeholder, state, setState }: Props) => {
             value={state}
             onChange={(e) => setState(e.target.value)}
         >
+            <option disabled value={placeholder} key={placeholder}>{placeholder}</option>
             {options.map((op) => {
                 return (
                     <option value={op.value} key={op.value}>{op.name}</option>

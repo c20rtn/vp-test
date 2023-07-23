@@ -31,9 +31,19 @@ export const Pagination = ({ pageNo, setPageNo, total }: Props) => {
             mx="20px"
             display="inline-flex"
         >
-            <Button label={"Prev"} mx="auto" onClick={e => pageOnClick(-1)} isDisabled={(pageNo - 1) < START_INDEX} />
+            <Button
+                label={"Prev"}
+                mx="auto"
+                onClick={e => pageOnClick(-1)} 
+                isDisabled={(pageNo - 1) < START_INDEX}
+            />
             <Text fontSize="x-large">{pageNo}</Text>
-            <Button label={"Next"} mx="auto" onClick={e => pageOnClick(1)} />
+            <Button
+                label={"Next"}
+                mx="auto"
+                onClick={e => pageOnClick(1)}
+                isDisabled={((pageNo + 1) * ITEMS_PER_PAGE) > total!}
+            />
         </Box>
     )
 }

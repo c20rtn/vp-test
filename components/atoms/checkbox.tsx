@@ -8,7 +8,7 @@ interface Props extends CheckboxProps {
 
 export const Checkbox = ({ option, ...props }: Props) => {
     return (
-        <ChakraCheckbox size='md' colorScheme='green' fontWeight="medium" mt={"2px"} {...props}>
+        <ChakraCheckbox size='md' colorScheme='white' fontWeight="medium" mt={"2px"} {...props}>
             {option.displayValue} ({option.productCount})
         </ChakraCheckbox>
     )

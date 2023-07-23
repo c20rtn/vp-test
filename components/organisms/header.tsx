@@ -17,10 +17,11 @@ export const Header = ({ productType, setProductType }: Props) => {
             justify="space-between"
             wrap="wrap"
             w="100%"
-            mb={8}
             p={2}
             bg="green.100"
-            color={["white", "white", "primary.700", "primary.700"]}
+            shadow="md"
+            position="fixed"
+            zIndex="100"
         >
             <Image
                 w="50px"

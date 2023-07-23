@@ -1,5 +1,4 @@
 import { Badge, Box, Flex, Image, Text } from '@chakra-ui/react'
-import React from 'react'
 import { Product } from '../../entities'
 import { colors } from '../../styles/colors'
 

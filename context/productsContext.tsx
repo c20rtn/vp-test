@@ -1,6 +1,6 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react"
 import { useQuery } from "react-query"
-import { START_INDEX, ITEMS_PER_PAGE } from "../config/constants"
+import { ITEMS_PER_PAGE, START_INDEX } from "../config/constants"
 import { Data, Facet, FacetFilter, Pagination, Product, ProductTypes, SortTypes } from "../entities"
 import { service } from "../services"
 

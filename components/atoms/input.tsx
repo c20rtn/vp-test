@@ -1,5 +1,4 @@
-import { FormControl, InputGroup, Text, Input as ChakraInput } from '@chakra-ui/react'
-import React from 'react'
+import { FormControl, Input as ChakraInput, InputGroup, Text } from '@chakra-ui/react'
 import { colors } from '../../styles/colors'
 
 export const Input = ({label}: {label: string}) => {

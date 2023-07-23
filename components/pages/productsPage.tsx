@@ -1,5 +1,5 @@
-import { Grid, GridItem, Flex, Accordion, SimpleGrid, Skeleton, Box } from '@chakra-ui/react';
-import React, { Dispatch, SetStateAction } from 'react'
+import { Accordion, Box, Flex, Grid, GridItem, SimpleGrid, Skeleton } from '@chakra-ui/react';
+import { Dispatch, SetStateAction } from 'react';
 import { ITEMS_PER_PAGE } from '../../config/constants';
 import { useProductContext } from '../../context/productsContext';
 import { Button } from '../atoms/button';

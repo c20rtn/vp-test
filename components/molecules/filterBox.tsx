@@ -1,14 +1,13 @@
-import { AccordionItem, AccordionButton, AccordionIcon, AccordionPanel, Box } from '@chakra-ui/react'
+import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box } from '@chakra-ui/react'
 import React, { Dispatch, SetStateAction } from 'react'
-import { Facet, Option } from '../../entities'
-import { FF } from '../../pages'
+import { Facet, FacetFilter, Option } from '../../entities'
 import { colors } from '../../styles/colors'
 import { Checkbox } from '../atoms/checkbox'
 
 interface Props {
     facet: Facet,
-    facetFilters: FF[]
-    setFacetFilters: Dispatch<SetStateAction<FF[]>>
+    facetFilters: FacetFilter[]
+    setFacetFilters: Dispatch<SetStateAction<FacetFilter[]>>
 }
 
 export const FilterBox = ({ facet, facetFilters, setFacetFilters }: Props) => {

@@ -20,7 +20,8 @@ export const getListings = async ({
             pageNumber,
             size,
             additionalPages,
-            sort
+            sort,
+            facets
         }
     )
     return data;

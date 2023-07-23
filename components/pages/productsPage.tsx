@@ -15,7 +15,7 @@ export const ProductsPage = () => {
     return (<>
         {/* Header for product selection */}
         <Header productType={state?.productType} setProductType={state?.setProductType} />
-        <Box bg="gray.100" p="8" paddingY="100px" height="full">
+        <Box p="8" paddingY="100px" height="full">
             <Grid
                 templateAreas={`"header header" "nav main"`}
                 gridTemplateRows={'50px 1fr 30px'}
@@ -29,9 +29,14 @@ export const ProductsPage = () => {
                 {/* Header of product grid */}
                 <GridItem pl='2' area={'header'} >
                     <Flex justify="space-between">
-                        Products Page ({state?.pagination.total})
-                        <Pagination pageNo={state?.pageNo} setPageNo={state?.setPageNo} total={state?.pagination.total} />
-                        <SortBy sortType={state?.sortType} setSortType={state?.setSortType as Dispatch<SetStateAction<string>>} />
+                        {!state?.isFetching && <>
+                            Products Page ({state?.pagination.total})
+                            <Pagination pageNo={state?.pageNo} setPageNo={state?.setPageNo} total={state?.pagination.total} />
+                            <SortBy sortType={state?.sortType} setSortType={state?.setSortType as Dispatch<SetStateAction<string>>} />
+                        </>}
+                        {state?.isFetching && <>
+                            {[...Array(3)].map(x => <Skeleton height='50px' width="300px" />)}
+                        </>}
                     </Flex>
                 </GridItem>
 
@@ -39,9 +44,12 @@ export const ProductsPage = () => {
                 <GridItem pl='2' area={'nav'}>
                     <Button label={"Clear"} mx="auto" onClick={e => state?.setFacetFilters([])} />
                     <Accordion defaultIndex={[0]} allowMultiple w="full" gap={2}>
-                        {state?.facets.map((facet) =>
+                        {!state?.isFetching && state?.facets.map((facet) =>
                             <FilterBox facet={facet} facetFilters={state?.facetFilters} setFacetFilters={state?.setFacetFilters} key={facet.identifier} />
                         )}
+                        {state?.isFetching && <>
+                            {[...Array(8)].map(x => <Skeleton height='40px' width="full" mt="5px" />)}
+                        </>}
                     </Accordion>
                 </GridItem>
 

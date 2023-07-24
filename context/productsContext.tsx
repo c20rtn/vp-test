@@ -1,7 +1,10 @@
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useEffect, useState } from "react"
 import { useQuery } from "react-query"
+import { useSelector, useDispatch } from "react-redux"
 import { ITEMS_PER_PAGE, START_INDEX } from "../config/constants"
-import { Data, Facet, FacetFilter, Pagination, Product, ProductTypes, SortTypes } from "../entities"
+import { RootState } from "../config/redux/store"
+import { setType } from "../config/redux/typeSlice"
+import { AppState, Data, Facet, FacetFilter, Pagination, Product, ProductTypes, SortTypes } from "../entities"
 import { service } from "../services"
 
 const initialData: Data = {
@@ -18,10 +21,11 @@ const initialData: Data = {
 const ProductsContext = createContext({} as IProductsContext)
 
 const ProductsProvider = ({ children }: { children: ReactNode }) => {
-    const [productType, setProductType] = useState<ProductTypes>("toilets")
     const [sortType, setSortType] = useState<SortTypes>("1")
     const [pageNo, setPageNo] = useState<number>(START_INDEX)
     const [facetFilters, setFacetFilters] = useState<FacetFilter[]>([])
+    const { productType } = useSelector((state: RootState) => state.productType);
+    console.log(productType);
 
     const {
         data,
@@ -77,7 +81,6 @@ const ProductsProvider = ({ children }: { children: ReactNode }) => {
                     products: data?.products!,
                     pagination: data?.pagination!,
                     productType,
-                    setProductType,
                     sortType,
                     setSortType,
                     pageNo,
@@ -109,7 +112,6 @@ interface IProductsContext {
         pagination: Pagination
         isFetching: boolean
         productType: ProductTypes
-        setProductType: Dispatch<SetStateAction<ProductTypes>>
         sortType: SortTypes
         setSortType: Dispatch<SetStateAction<SortTypes>>
         pageNo: number

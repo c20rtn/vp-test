@@ -1,15 +1,19 @@
 import { Box, Flex, Image } from '@chakra-ui/react'
 import { Dispatch, SetStateAction } from 'react'
-import { ProductTypes } from '../../entities'
+import { useSelector, useDispatch } from 'react-redux'
+import { setType } from '../../config/redux/typeSlice'
+import { AppState, ProductTypes } from '../../entities'
 import { Button } from '../atoms/button'
 import { Dropdown } from '../atoms/dropdown'
 
 export interface Props {
     productType: ProductTypes
-    setProductType: Dispatch<SetStateAction<ProductTypes>>
+    //setProductType: Dispatch<SetStateAction<ProductTypes>>
 }
 
-export const Header = ({ productType, setProductType }: Props) => {
+export const Header = ({ productType }: Props) => {
+    const dispatch = useDispatch();
+
     return (
         <Flex
             as="nav"
@@ -44,7 +48,7 @@ export const Header = ({ productType, setProductType }: Props) => {
                     ]}
                     placeholder={"Select a Product!"}
                     state={productType}
-                    setState={setProductType as Dispatch<SetStateAction<string>>}
+                    onChange={(e) => dispatch(setType(e.target.value))}
                 />
             </Box>
 

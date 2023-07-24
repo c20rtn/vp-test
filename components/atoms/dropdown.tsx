@@ -1,4 +1,4 @@
-import { Select } from '@chakra-ui/react'
+import { Select, SelectProps } from '@chakra-ui/react'
 import { Dispatch, SetStateAction } from 'react'
 import { colors } from '../../styles/colors'
 
@@ -6,14 +6,13 @@ interface IOption {
     name: string
     value: string
 }
-interface Props {
+interface Props extends SelectProps{
     options: IOption[],
     placeholder: string,
     state: string,
-    setState: Dispatch<SetStateAction<string>>
 }
 
-export const Dropdown = ({ options, placeholder, state, setState }: Props) => {
+export const Dropdown = ({ options, placeholder, state, ...props  }: Props) => {
     return (
         <Select
             bg="white"
@@ -23,7 +22,7 @@ export const Dropdown = ({ options, placeholder, state, setState }: Props) => {
             borderBottomWidth="4px"
             borderColor={colors.primary}
             value={state}
-            onChange={(e) => setState(e.target.value)}
+            {...props}
         >
             <option disabled value={placeholder} key={placeholder}>{placeholder}</option>
             {options.map((op) => {

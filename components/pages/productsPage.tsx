@@ -10,11 +10,11 @@ import { Pagination } from '../organisms/pagination';
 import { SortBy } from '../organisms/sortBy';
 
 export const ProductsPage = () => {
-    const { state, methods } = useProductContext()
+    const { state } = useProductContext()
     console.log(state);
     return (<>
         {/* Header for product selection */}
-        <Header productType={state?.productType} setProductType={state?.setProductType} />
+        <Header productType={state?.productType}/>
         <Box p="8" paddingY="100px" height="full">
             <Grid
                 templateAreas={`"header header" "nav main"`}

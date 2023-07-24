@@ -7,7 +7,7 @@ interface Props {
     setSortType: Dispatch<SetStateAction<string>>
 }
 
-export const SortBy = ({sortType, setSortType}: Props) => {
+export const SortBy = ({ sortType, setSortType }: Props) => {
     return (
         <Box
             w="xs"
@@ -22,7 +22,7 @@ export const SortBy = ({sortType, setSortType}: Props) => {
                 ]}
                 placeholder={"Sort by..."}
                 state={sortType}
-                setState={setSortType as Dispatch<SetStateAction<string>>}
+                onChange={(e) => setSortType(e.target.value)}
             />
         </Box>
     )

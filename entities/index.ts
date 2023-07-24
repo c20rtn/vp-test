@@ -141,3 +141,7 @@ export interface FacetFilter {
     identifier: string
     value: any
 }
+
+export interface AppState {
+    type: ProductTypes;
+}

@@ -1,6 +1,8 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
 import type { AppProps } from 'next/app'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { Provider } from 'react-redux'
+import { store } from '../config/redux/store'
 
 const queryClient = new QueryClient()
 
@@ -8,7 +10,7 @@ const theme = extendTheme({
   styles: {
     global: () => ({
       body: {
-        bg:"gray.100",
+        bg: "gray.100",
       }
     })
   },
@@ -21,7 +23,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
       </QueryClientProvider>
     </ChakraProvider>
   )
